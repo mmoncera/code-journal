@@ -10,12 +10,12 @@ header {
   background-color: #562b81;
 }
 
-h2 {
+.header-title {
   color: white;
   font-weight: 100;
 }
 
-img,
+.photo-preview,
 label,
 input,
 textarea {
@@ -43,7 +43,7 @@ label {
   font-weight: 600;
 }
 
-img {
+.photo-preview {
   margin-bottom: 2rem;
   border: none;
   border-radius: 0.25rem;

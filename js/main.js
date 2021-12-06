@@ -2,10 +2,10 @@
 /* exported data */
 
 var $photoUrl = document.getElementById('photo-url');
-var $image = document.querySelector('.image');
+var $photoPreview = document.querySelector('.photo-preview');
 
 $photoUrl.addEventListener('input', function (event) {
-  $image.src = event.target.value;
+  $photoPreview.src = event.target.value;
 });
 
 var $form = document.querySelector('.form');
@@ -20,6 +20,6 @@ $form.addEventListener('submit', function (event) {
   };
   data.nextEntryId++;
   data.entries.unshift(entry);
-  $image.src = 'images/placeholder-image-square.jpg';
+  $photoPreview.src = 'images/placeholder-image-square.jpg';
   $form.reset();
 });
