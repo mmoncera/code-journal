@@ -1,7 +1,7 @@
 /* global data */
 /* exported data */
 
-var $photoUrl = document.getElementById('photo-url');
+var $photoUrl = document.getElementById('photoUrl');
 var $photoPreview = document.querySelector('.photo-preview');
 
 $photoUrl.addEventListener('input', function (event) {
