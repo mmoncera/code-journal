@@ -60,15 +60,11 @@ function renderEntry(entry) {
   return $entry;
 }
 
-// Test to see if it displays in DOM
-var example = {
-  title: 'JavaScript',
-  photoUrl:
-    'https://images.unsplash.com/photo-1619410283995-43d9134e7656?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8amF2YXNjcmlwdHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
-  notes:
-    'This is challenging and fun. Learning a lot and looking forward to more!!!'
-};
-
 var $entriesContainer = document.querySelector('.entries-container');
 
-$entriesContainer.appendChild(renderEntry(example));
+window.addEventListener('DOMContentLoaded', function (event) {
+  for (let index = 0; index < data.entries.length; index++) {
+    var element = renderEntry(data.entries[index]);
+    $entriesContainer.appendChild(element);
+  }
+});
