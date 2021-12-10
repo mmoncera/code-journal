@@ -19,15 +19,18 @@
     <header>
       <div class="container">
         <div class="row">
-          <div class="column-full">
+          <div class="column-full flex-start">
             <h2 class="header-title">Code Journal</h2>
+            <nav>
+              <a class="entries-nav" href="#">Entries</a>
+            </nav>
           </div>
         </div>
       </div>
     </header>
 
     <main>
-      <div class="container" data-view="entry-form">
+      <div class="container hidden" data-view="entry-form">
         <form class="form">
           <div class="row">
             <div class="column-full">
@@ -46,8 +49,8 @@
             <div class="column-half">
               <label for="title">Title</label>
               <input required type="text" name="title" id="title" />
-              <label for="photo-url">Photo URL</label>
-              <input required type="url" name="photoUrl" id="photo-url" />
+              <label for="photoUrl">Photo URL</label>
+              <input required type="url" name="photoUrl" id="photoUrl" />
             </div>
           </div>
 
@@ -71,8 +74,25 @@
           </div>
         </form>
       </div>
+
+      <div class="container" data-view="entries">
+        <div class="row">
+          <div class="column-full flex-space-between">
+            <h1>Entries</h1>
+            <button class="form-button" type="button">NEW</button>
+          </div>
+        </div>
+        <div class="row no-entry">
+          <div class="column-full">
+            <p class="">No entries have been recorded.</p>
+          </div>
+        </div>
+        <ul class="entries-container"></ul>
+      </div>
     </main>
     <script src="js/data.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>
+
+<!-- TODO - add "No entries have been entered" -->
