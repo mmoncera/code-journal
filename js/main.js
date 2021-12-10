@@ -38,6 +38,7 @@ $form.addEventListener('submit', function (event) {
 function renderEntry(entry) {
   var $entry = document.createElement('li');
   $entry.setAttribute('class', 'row entry');
+  $entry.setAttribute('data-entry-id', entry.id);
 
   var $entryPhotoContainer = document.createElement('div');
   $entryPhotoContainer.setAttribute(
