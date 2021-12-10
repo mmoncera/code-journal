@@ -21,7 +21,7 @@ $form.addEventListener('submit', function (event) {
     title: $form.elements.title.value,
     photoUrl: $form.elements.photoUrl.value,
     notes: $form.elements.notes.value,
-    entryId: data.nextEntryId
+    id: data.nextEntryId
   };
   data.nextEntryId++;
   data.entries.unshift(entry);
@@ -48,7 +48,7 @@ function renderEntry(entry) {
   var $entryPhoto = document.createElement('img');
   $entryPhoto.setAttribute('class', 'photo-preview entry-photo');
   $entryPhoto.setAttribute('src', entry.photoUrl);
-  $entryPhoto.setAttribute('alt', 'placeholder image');
+  $entryPhoto.setAttribute('alt', 'entry image');
 
   var $entryInformationContainer = document.createElement('div');
   $entryInformationContainer.setAttribute(
@@ -56,9 +56,24 @@ function renderEntry(entry) {
     'column-half entry-information-container'
   );
 
+  var $infoRow1 = document.createElement('div');
+  $infoRow1.setAttribute('class', 'row info-row-1');
+
+  var $titleEditContainer = document.createElement('div');
+  $titleEditContainer.setAttribute('class', 'column-full title-edit-container');
+
   var $entryTitle = document.createElement('h2');
   $entryTitle.setAttribute('class', 'entry-title');
   $entryTitle.innerText = entry.title;
+
+  var $entryEdit = document.createElement('i');
+  $entryEdit.setAttribute('class', 'fas fa-pen entry-edit');
+
+  var $infoRow2 = document.createElement('div');
+  $infoRow2.setAttribute('class', 'row info-row-2');
+
+  var $notesContainer = document.createElement('div');
+  $notesContainer.setAttribute('class', 'column-full notes-container');
 
   var $entryNotes = document.createElement('p');
   $entryNotes.setAttribute('class', 'entry-notes');
@@ -66,7 +81,11 @@ function renderEntry(entry) {
 
   $entry.append($entryPhotoContainer, $entryInformationContainer);
   $entryPhotoContainer.appendChild($entryPhoto);
-  $entryInformationContainer.append($entryTitle, $entryNotes);
+  $entryInformationContainer.append($infoRow1, $infoRow2);
+  $infoRow1.appendChild($titleEditContainer);
+  $titleEditContainer.append($entryTitle, $entryEdit);
+  $infoRow2.appendChild($notesContainer);
+  $notesContainer.appendChild($entryNotes);
 
   return $entry;
 }
