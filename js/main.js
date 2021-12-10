@@ -3,12 +3,17 @@
 
 var $photoUrl = document.getElementById('photoUrl');
 var $photoPreview = document.querySelector('.photo-preview');
+var $form = document.querySelector('.form');
+var $entriesContainer = document.querySelector('.entries-container');
+var $noEntry = document.querySelector('.no-entry');
+var $entriesNav = document.querySelector('.entries-nav');
+var $formButton = document.querySelector('.form-button');
+var $entryForm = document.querySelector('[data-view="entry-form"]');
+var $entries = document.querySelector('[data-view="entries"]');
 
 $photoUrl.addEventListener('input', function (event) {
   $photoPreview.src = event.target.value;
 });
-
-var $form = document.querySelector('.form');
 
 $form.addEventListener('submit', function (event) {
   event.preventDefault();
@@ -16,10 +21,16 @@ $form.addEventListener('submit', function (event) {
     title: $form.elements.title.value,
     photoUrl: $form.elements.photoUrl.value,
     notes: $form.elements.notes.value,
-    nextEntryId: data.nextEntryId
+    entryId: data.nextEntryId
   };
   data.nextEntryId++;
   data.entries.unshift(entry);
+
+  $noEntry.classList.add('hidden');
+  $entriesContainer.prepend(renderEntry(entry));
+  $entries.classList.remove('hidden');
+  $entryForm.classList.add('hidden');
+
   $photoPreview.src = 'images/placeholder-image-square.jpg';
   $form.reset();
 });
@@ -47,11 +58,11 @@ function renderEntry(entry) {
 
   var $entryTitle = document.createElement('h2');
   $entryTitle.setAttribute('class', 'entry-title');
-  $entryTitle.textContent = entry.title;
+  $entryTitle.innerText = entry.title;
 
   var $entryNotes = document.createElement('p');
   $entryNotes.setAttribute('class', 'entry-notes');
-  $entryNotes.textContent = entry.notes;
+  $entryNotes.innerText = entry.notes;
 
   $entry.append($entryPhotoContainer, $entryInformationContainer);
   $entryPhotoContainer.appendChild($entryPhoto);
@@ -60,11 +71,23 @@ function renderEntry(entry) {
   return $entry;
 }
 
-var $entriesContainer = document.querySelector('.entries-container');
-
 window.addEventListener('DOMContentLoaded', function (event) {
+  if (data.entries.length > 0) {
+    $noEntry.classList.add('hidden');
+  }
+
   for (let index = 0; index < data.entries.length; index++) {
     var element = renderEntry(data.entries[index]);
     $entriesContainer.appendChild(element);
   }
+});
+
+$formButton.addEventListener('click', function (event) {
+  $entryForm.classList.remove('hidden');
+  $entries.classList.add('hidden');
+});
+
+$entriesNav.addEventListener('click', function (event) {
+  $entries.classList.remove('hidden');
+  $entryForm.classList.add('hidden');
 });
