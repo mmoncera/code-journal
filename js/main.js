@@ -31,8 +31,7 @@ $form.addEventListener('submit', function (event) {
   $entries.classList.remove('hidden');
   $entryForm.classList.add('hidden');
 
-  $photoPreview.src = 'images/placeholder-image-square.jpg';
-  $form.reset();
+  resetForm();
 });
 
 function renderEntry(entry) {
@@ -105,9 +104,17 @@ window.addEventListener('DOMContentLoaded', function (event) {
 $formButton.addEventListener('click', function (event) {
   $entryForm.classList.remove('hidden');
   $entries.classList.add('hidden');
+  resetForm();
 });
 
 $entriesNav.addEventListener('click', function (event) {
   $entries.classList.remove('hidden');
   $entryForm.classList.add('hidden');
 });
+
+function resetForm() {
+  $photoPreview.src = 'images/placeholder-image-square.jpg';
+  $form.reset();
+}
+
+$entriesContainer.addEventListener('click', function (event) {});
