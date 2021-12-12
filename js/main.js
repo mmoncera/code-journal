@@ -1,6 +1,8 @@
 /* global data */
 /* exported data */
 
+var $newEntry = document.querySelector('.new-entry');
+var $editEntry = document.querySelector('.edit-entry');
 var $photoUrl = document.getElementById('photoUrl');
 var $photoPreview = document.querySelector('.photo-preview');
 var $form = document.querySelector('.form');
@@ -25,12 +27,9 @@ $form.addEventListener('submit', function (event) {
   };
   data.nextEntryId++;
   data.entries.unshift(entry);
-
   $noEntry.classList.add('hidden');
   $entriesContainer.prepend(renderEntry(entry));
-  $entries.classList.remove('hidden');
-  $entryForm.classList.add('hidden');
-
+  swapViews($entries, $entryForm);
   resetForm();
 });
 
@@ -102,19 +101,29 @@ window.addEventListener('DOMContentLoaded', function (event) {
 });
 
 $formButton.addEventListener('click', function (event) {
-  $entryForm.classList.remove('hidden');
-  $entries.classList.add('hidden');
+  swapViews($entryForm, $entries);
   resetForm();
 });
 
 $entriesNav.addEventListener('click', function (event) {
-  $entries.classList.remove('hidden');
-  $entryForm.classList.add('hidden');
+  swapViews($entries, $entryForm);
+  resetForm();
 });
 
 function resetForm() {
+  swapViews($newEntry, $editEntry);
   $photoPreview.src = 'images/placeholder-image-square.jpg';
   $form.reset();
 }
 
-$entriesContainer.addEventListener('click', function (event) {});
+function swapViews(activeElement, hiddenElement) {
+  activeElement.classList.remove('hidden');
+  hiddenElement.classList.add('hidden');
+}
+
+$entriesContainer.addEventListener('click', function (event) {
+  if (event.target && event.target.matches('.entry-edit')) {
+    swapViews($entryForm, $entries);
+    swapViews($editEntry, $newEntry);
+  }
+});
