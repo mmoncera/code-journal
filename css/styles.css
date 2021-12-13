@@ -10,7 +10,7 @@ header {
   background-color: #562b81;
 }
 
-.flex-start {
+.page-header {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -66,7 +66,7 @@ label {
   border-radius: 0.25rem;
 }
 
-.button-container {
+.submit-button-container {
   display: flex;
   justify-content: flex-end;
 }
@@ -85,6 +85,12 @@ label {
 .submit:hover,
 .form-button:hover {
   background-color: #7c40a9;
+}
+
+.entries-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .no-entry {
@@ -108,8 +114,17 @@ label {
   line-height: 1.5rem;
 }
 
-.flex-space-between {
+.title-edit-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+}
+
+.entry-edit-icon {
+  font-size: 1.75rem;
+  color: #562b81;
+  cursor: pointer;
+}
+
+.entry-edit-icon:hover {
+  color: #7c40a9;
 }
