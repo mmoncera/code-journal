@@ -19,18 +19,30 @@ $photoUrl.addEventListener('input', function (event) {
 
 $form.addEventListener('submit', function (event) {
   event.preventDefault();
-  var entry = {
-    title: $form.elements.title.value,
-    photoUrl: $form.elements.photoUrl.value,
-    notes: $form.elements.notes.value,
-    id: data.nextEntryId
-  };
-  data.nextEntryId++;
-  data.entries.unshift(entry);
-  $noEntry.classList.add('hidden');
-  $entriesContainer.prepend(renderEntry(entry));
+
+  if (data.editing !== null) {
+    data.editing.title = $form.elements.title.value;
+    data.editing.photoUrl = $form.elements.photoUrl.value;
+    data.editing.notes = $form.elements.notes.value;
+    var $editEntryDataEntryId = document.querySelector(
+      `[data-entry-id="${data.editing.id}"]`
+    );
+    $editEntryDataEntryId.replaceWith(renderEntry(data.editing));
+  } else {
+    var entry = {
+      title: $form.elements.title.value,
+      photoUrl: $form.elements.photoUrl.value,
+      notes: $form.elements.notes.value,
+      id: data.nextEntryId
+    };
+    data.nextEntryId++;
+    data.entries.unshift(entry);
+    $noEntry.classList.add('hidden');
+    $entriesContainer.prepend(renderEntry(entry));
+  }
+
   swapViews($entries, $entryForm);
-  resetForm();
+  resetNewEntry();
 });
 
 function renderEntry(entry) {
@@ -66,7 +78,7 @@ function renderEntry(entry) {
   $entryTitle.innerText = entry.title;
 
   var $entryEdit = document.createElement('i');
-  $entryEdit.setAttribute('class', 'fas fa-pen entry-edit');
+  $entryEdit.setAttribute('class', 'fas fa-pen entry-edit-icon');
 
   var $infoRow2 = document.createElement('div');
   $infoRow2.setAttribute('class', 'row info-row-2');
@@ -93,25 +105,26 @@ window.addEventListener('DOMContentLoaded', function (event) {
   if (data.entries.length > 0) {
     $noEntry.classList.add('hidden');
   }
-
   for (let index = 0; index < data.entries.length; index++) {
     var element = renderEntry(data.entries[index]);
     $entriesContainer.appendChild(element);
   }
+  resetNewEntry();
 });
 
 $formButton.addEventListener('click', function (event) {
   swapViews($entryForm, $entries);
-  resetForm();
+  resetNewEntry();
 });
 
 $entriesNav.addEventListener('click', function (event) {
   swapViews($entries, $entryForm);
-  resetForm();
+  resetNewEntry();
 });
 
-function resetForm() {
+function resetNewEntry() {
   swapViews($newEntry, $editEntry);
+  data.editing = null;
   $photoPreview.src = 'images/placeholder-image-square.jpg';
   $form.reset();
 }
@@ -122,28 +135,20 @@ function swapViews(activeElement, hiddenElement) {
 }
 
 $entriesContainer.addEventListener('click', function (event) {
-  if (event.target && event.target.matches('.entry-edit')) {
+  if (event.target && event.target.matches('.entry-edit-icon')) {
     swapViews($entryForm, $entries);
     swapViews($editEntry, $newEntry);
-  }
-
-  var $dataEntryId = event.target.closest('[data-entry-id]').dataset.entryId;
-
-  for (let index = 0; index < data.entries.length; index++) {
-    const element = data.entries[index];
-
-    if (element.id === Number($dataEntryId)) {
-      data.editing = element;
-      $form.elements.title.value = element.title;
-      $form.elements.photoUrl.value = element.photoUrl;
-      $photoPreview.src = element.photoUrl;
-      $form.elements.notes.value = element.notes;
-      break;
+    var $closestDataEntryId = event.target.closest('[data-entry-id]');
+    for (let index = 0; index < data.entries.length; index++) {
+      const element = data.entries[index];
+      if (String(element.id) === $closestDataEntryId.dataset.entryId) {
+        data.editing = element;
+        $form.elements.title.value = element.title;
+        $form.elements.photoUrl.value = element.photoUrl;
+        $photoPreview.src = element.photoUrl;
+        $form.elements.notes.value = element.notes;
+        break;
+      }
     }
   }
 });
-
-/*
-  // TODO:
-    // 1) change data.editing = null (submit)
- */

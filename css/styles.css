@@ -66,7 +66,7 @@ label {
   border-radius: 0.25rem;
 }
 
-.button-container {
+.submit-button-container {
   display: flex;
   justify-content: flex-end;
 }
@@ -119,12 +119,12 @@ label {
   justify-content: space-between;
 }
 
-.entry-edit {
+.entry-edit-icon {
   font-size: 1.75rem;
   color: #562b81;
   cursor: pointer;
 }
 
-.entry-edit:hover {
+.entry-edit-icon:hover {
   color: #7c40a9;
 }
