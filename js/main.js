@@ -134,6 +134,10 @@ $entriesContainer.addEventListener('click', function (event) {
 
     if (element.id === Number($dataEntryId)) {
       data.editing = element;
+      $form.elements.title.value = element.title;
+      $form.elements.photoUrl.value = element.photoUrl;
+      $photoPreview.src = element.photoUrl;
+      $form.elements.notes.value = element.notes;
       break;
     }
   }
