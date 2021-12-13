@@ -126,4 +126,20 @@ $entriesContainer.addEventListener('click', function (event) {
     swapViews($entryForm, $entries);
     swapViews($editEntry, $newEntry);
   }
+
+  var $dataEntryId = event.target.closest('[data-entry-id]').dataset.entryId;
+
+  for (let index = 0; index < data.entries.length; index++) {
+    const element = data.entries[index];
+
+    if (element.id === Number($dataEntryId)) {
+      data.editing = element;
+      break;
+    }
+  }
 });
+
+/*
+  // TODO:
+    // 1) change data.editing = null (submit)
+ */
