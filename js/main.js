@@ -9,9 +9,11 @@ var $form = document.querySelector('.form');
 var $entriesContainer = document.querySelector('.entries-container');
 var $noEntry = document.querySelector('.no-entry');
 var $entriesNav = document.querySelector('.entries-nav');
-var $formButton = document.querySelector('.form-button');
+var $newButton = document.querySelector('.new-button');
 var $entryForm = document.querySelector('[data-view="entry-form"]');
 var $entries = document.querySelector('[data-view="entries"]');
+var $saveButtonContainer = document.querySelector('.save-button-container');
+var $deleteButtonContainer = document.querySelector('.delete-button-container');
 
 $photoUrl.addEventListener('input', function (event) {
   $photoPreview.src = event.target.value;
@@ -112,8 +114,9 @@ window.addEventListener('DOMContentLoaded', function (event) {
   resetNewEntry();
 });
 
-$formButton.addEventListener('click', function (event) {
+$newButton.addEventListener('click', function (event) {
   swapViews($entryForm, $entries);
+  swapViews($saveButtonContainer, $deleteButtonContainer);
   resetNewEntry();
 });
 
@@ -138,6 +141,7 @@ $entriesContainer.addEventListener('click', function (event) {
   if (event.target && event.target.matches('.entry-edit-icon')) {
     swapViews($entryForm, $entries);
     swapViews($editEntry, $newEntry);
+    swapViews($deleteButtonContainer, $saveButtonContainer);
     var $closestDataEntryId = event.target.closest('[data-entry-id]');
     for (let index = 0; index < data.entries.length; index++) {
       const element = data.entries[index];
