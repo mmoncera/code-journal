@@ -169,3 +169,19 @@ var $cancelButton = document.querySelector('.cancel-button');
 $cancelButton.addEventListener('click', function (event) {
   $modal.classList.add('hidden');
 });
+
+var $confirmButton = document.querySelector('.confirm-button');
+
+$confirmButton.addEventListener('click', function (event) {
+  var $deletedEntryDataEntryId = document.querySelector(
+    `[data-entry-id="${data.editing.id}"]`
+  );
+  var index = data.entries.indexOf(data.editing);
+  data.entries.splice(index, 1);
+  $deletedEntryDataEntryId.remove();
+  $modal.classList.add('hidden');
+  swapViews($entries, $entryForm);
+  if (data.entries.length === 0) {
+    $noEntry.classList.remove('hidden');
+  }
+});
