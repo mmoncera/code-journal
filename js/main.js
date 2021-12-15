@@ -163,3 +163,9 @@ var $modal = document.querySelector('.modal');
 $deleteButton.addEventListener('click', function () {
   $modal.classList.remove('hidden');
 });
+
+var $cancelButton = document.querySelector('.cancel-button');
+
+$cancelButton.addEventListener('click', function (event) {
+  $modal.classList.add('hidden');
+});
