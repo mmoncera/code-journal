@@ -156,3 +156,10 @@ $entriesContainer.addEventListener('click', function (event) {
     }
   }
 });
+
+var $deleteButton = document.querySelector('.delete-button');
+var $modal = document.querySelector('.modal');
+
+$deleteButton.addEventListener('click', function () {
+  $modal.classList.remove('hidden');
+});
