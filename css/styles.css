@@ -59,19 +59,13 @@ label {
   font-weight: 600;
 }
 
-.photo-container,
-.entry-photo-container {
-  width: 50%;
-  height: 22rem;
-  margin-bottom: 2rem;
-}
-
 .photo-preview,
 .entry-photo {
+  margin-bottom: 2rem;
   border: none;
   border-radius: 0.25rem;
   width: 100%;
-  height: 100%;
+  height: 24rem;
   object-fit: cover;
 }
 
