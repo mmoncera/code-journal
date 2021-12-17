@@ -32,7 +32,6 @@ header {
   text-decoration: underline;
 }
 
-.photo-preview,
 label,
 input,
 textarea {
@@ -60,10 +59,20 @@ label {
   font-weight: 600;
 }
 
-.photo-preview {
+.photo-container,
+.entry-photo-container {
+  width: 50%;
+  height: 22rem;
   margin-bottom: 2rem;
+}
+
+.photo-preview,
+.entry-photo {
   border: none;
   border-radius: 0.25rem;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .save-button-container {

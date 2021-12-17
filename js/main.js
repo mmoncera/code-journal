@@ -28,7 +28,7 @@ var $confirmButton = document.querySelector('.confirm-button');
 
 /*
 ************************************************
-Utility functions
+Utility Functions
 ************************************************
 */
 function renderEntry(entry) {
@@ -36,7 +36,7 @@ function renderEntry(entry) {
   <li class="row entry" data-entry-id=`${entry.id}`>
     <div class="column-half entry-photo-container">
       <img
-        class="photo-preview entry-photo"
+        class="entry-photo"
         src=`${entry.photoUrl}`
         alt="entry image"
       />
@@ -68,7 +68,7 @@ function renderEntry(entry) {
   );
 
   var $entryPhoto = document.createElement('img');
-  $entryPhoto.setAttribute('class', 'photo-preview entry-photo');
+  $entryPhoto.setAttribute('class', 'entry-photo');
   $entryPhoto.setAttribute('src', entry.photoUrl);
   $entryPhoto.setAttribute('alt', 'entry image');
 
