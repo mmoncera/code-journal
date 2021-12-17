@@ -131,6 +131,9 @@ Event Listener Handlers
 */
 function handleUpdatePhotoUrl(event) {
   $photoPreview.src = event.target.value;
+  if ($photoUrl.value === '') {
+    $photoPreview.src = 'images/placeholder-image-square.jpg';
+  }
 }
 
 function handleSubmitForm(event) {
