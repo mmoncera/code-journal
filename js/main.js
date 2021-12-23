@@ -112,16 +112,48 @@ function renderEntry(entry) {
   return $entry;
 }
 
-function swapViews(activeElement, hiddenElement) {
+function addRemoveHidden(activeElement, hiddenElement) {
   activeElement.classList.remove('hidden');
   hiddenElement.classList.add('hidden');
 }
 
 function resetNewEntry() {
-  swapViews($newEntry, $editEntry);
   data.editing = null;
   $photoPreview.src = 'images/placeholder-image-square.jpg';
   $form.reset();
+}
+
+function swapDataView(dataView) {
+  if (dataView === 'entry-form') {
+    addRemoveHidden($entryFormView, $entriesView);
+    addRemoveHidden($newEntry, $editEntry);
+    addRemoveHidden($saveButtonContainer, $deleteEntryButtonContainer);
+    data.view = 'entry-form';
+    resetNewEntry();
+  }
+  if (dataView === 'entries') {
+    addRemoveHidden($entriesView, $entryFormView);
+    if (data.entries.length === 0) {
+      $noEntry.classList.remove('hidden');
+    } else {
+      $noEntry.classList.add('hidden');
+    }
+    data.view = 'entries';
+    resetNewEntry();
+  }
+  if (dataView === 'editing') {
+    var editingEntry = data.entries.find(function (element) {
+      return element.id === data.editing.id;
+    });
+    addRemoveHidden($entryFormView, $entriesView);
+    addRemoveHidden($editEntry, $newEntry);
+    addRemoveHidden($deleteEntryButtonContainer, $saveButtonContainer);
+    $form.elements.title.value = editingEntry.title;
+    $form.elements.photoUrl.value = editingEntry.photoUrl;
+    $photoPreview.src = editingEntry.photoUrl;
+    $form.elements.notes.value = editingEntry.notes;
+    data.view = 'editing';
+  }
 }
 
 /*
@@ -139,13 +171,17 @@ function handleUpdatePhotoUrl(event) {
 function handleSubmitForm(event) {
   event.preventDefault();
   if (data.editing !== null) {
-    data.editing.title = $form.elements.title.value;
-    data.editing.photoUrl = $form.elements.photoUrl.value;
-    data.editing.notes = $form.elements.notes.value;
     var $editEntryDataEntryId = document.querySelector(
       `[data-entry-id="${data.editing.id}"]`
     );
+    var editingEntryIndex = data.entries.findIndex(function (element) {
+      return element.id === data.editing.id;
+    });
+    data.editing.title = $form.elements.title.value;
+    data.editing.photoUrl = $form.elements.photoUrl.value;
+    data.editing.notes = $form.elements.notes.value;
     $editEntryDataEntryId.replaceWith(renderEntry(data.editing));
+    data.entries[editingEntryIndex] = data.editing;
   } else {
     var entry = {
       title: $form.elements.title.value,
@@ -155,52 +191,35 @@ function handleSubmitForm(event) {
     };
     data.nextEntryId++;
     data.entries.unshift(entry);
-    $noEntry.classList.add('hidden');
     $entriesContainer.prepend(renderEntry(entry));
   }
-  swapViews($entriesView, $entryFormView);
-  resetNewEntry();
+  swapDataView('entries');
 }
 
 function handleLoadDomContent(event) {
-  if (data.entries.length > 0) {
-    $noEntry.classList.add('hidden');
-  }
   for (let index = 0; index < data.entries.length; index++) {
     var element = renderEntry(data.entries[index]);
     $entriesContainer.appendChild(element);
   }
-  resetNewEntry();
+  swapDataView(data.view);
 }
 
 function handleViewNewForm(event) {
-  swapViews($entryFormView, $entriesView);
-  swapViews($saveButtonContainer, $deleteEntryButtonContainer);
-  resetNewEntry();
+  swapDataView('entry-form');
 }
 
 function handleViewEntries(event) {
-  swapViews($entriesView, $entryFormView);
-  resetNewEntry();
+  swapDataView('entries');
 }
 
 function handleViewEditForm(event) {
   if (event.target && event.target.matches('.entry-edit-icon')) {
-    swapViews($entryFormView, $entriesView);
-    swapViews($editEntry, $newEntry);
-    swapViews($deleteEntryButtonContainer, $saveButtonContainer);
     var $closestDataEntryId = event.target.closest('[data-entry-id]');
-    for (let index = 0; index < data.entries.length; index++) {
-      const element = data.entries[index];
-      if (String(element.id) === $closestDataEntryId.dataset.entryId) {
-        data.editing = element;
-        $form.elements.title.value = element.title;
-        $form.elements.photoUrl.value = element.photoUrl;
-        $photoPreview.src = element.photoUrl;
-        $form.elements.notes.value = element.notes;
-        break;
-      }
-    }
+    var editingEntry = data.entries.find(function (element) {
+      return String(element.id) === $closestDataEntryId.dataset.entryId;
+    });
+    data.editing = editingEntry;
+    swapDataView('editing');
   }
 }
 
@@ -213,17 +232,16 @@ function handleRemoveModalView() {
 }
 
 function handleConfirmDeletion() {
+  var deleteEntryIndex = data.entries.findIndex(function (element) {
+    return element.id === data.editing.id;
+  });
   var $deleteEntryDataEntryId = document.querySelector(
     `[data-entry-id="${data.editing.id}"]`
   );
-  var deleteEntryIndex = data.entries.indexOf(data.editing);
   data.entries.splice(deleteEntryIndex, 1);
   $deleteEntryDataEntryId.remove();
   $modal.classList.add('hidden');
-  swapViews($entriesView, $entryFormView);
-  if (data.entries.length === 0) {
-    $noEntry.classList.remove('hidden');
-  }
+  swapDataView('entries');
 }
 
 /*
