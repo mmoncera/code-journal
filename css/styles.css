@@ -7,9 +7,10 @@ body {
 }
 
 header {
+  background-color: #562b81;
   position: fixed;
   width: 100%;
-  background-color: #562b81;
+  z-index: 1;
 }
 
 .page-header {
@@ -32,6 +33,11 @@ header {
 
 .entries-nav:hover {
   text-decoration: underline;
+}
+
+main {
+  position: relative;
+  top: 4.25rem;
 }
 
 label,
